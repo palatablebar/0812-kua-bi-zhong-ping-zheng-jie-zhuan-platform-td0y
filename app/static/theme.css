@@ -1,0 +1,54 @@
+:root { --bg:#2b1920; --surface:#3c252d; --ink:#f7e7e4; --accent:#f7a7a0; --radius:0px;
+  --pad:21px; --gap:10px; --row:35px; --font-ui:"Times New Roman","PingFang SC",sans-serif;
+  --font-num:ui-monospace,monospace; --font-display:"Times New Roman","PingFang SC",sans-serif;
+  --line:color-mix(in srgb,var(--ink) 20%,var(--surface)); --sub:color-mix(in srgb,var(--ink) 78%,var(--surface));
+  --alert:#ffae99; --size:13px; --chart-height:106px; --button:color-mix(in srgb,var(--accent) 11%,var(--surface));
+  color-scheme:dark; }
+* {box-sizing:border-box} [hidden] {display:none!important}
+body.stamp {margin:0;background:var(--bg);color:var(--ink);font:var(--size)/1.55 var(--font-ui)}
+.stamp .desk {display:grid;grid-template-areas:"mast mast" "stages stages" "source source" "kpis kpis" "results results" "chart inspection" "archive archive" "statusbar statusbar";grid-template-columns:1fr 1fr;gap:var(--gap);margin:auto;padding:clamp(14px,3vw,42px);max-width:1618px}
+.stamp .mast {grid-area:mast;background:var(--surface);padding:var(--pad);min-width:0}
+.stamp .mast h1 {font:700 clamp(26px,4vw,66px)/1.1 var(--font-display);margin:0;overflow-wrap:anywhere}
+.stamp .role {color:var(--accent);margin:0 0 11px;font-weight:700}
+.stamp .source {grid-area:source;display:flex;align-items:center;flex-wrap:wrap;gap:var(--gap);padding:var(--pad);background:var(--surface);border:1px solid var(--line);min-width:0}
+.stamp .source input {position:absolute;width:1px;height:1px;opacity:0}
+.stamp .source:has(input:focus-visible) .file {outline:2px solid var(--accent);outline-offset:3px}
+.stamp .file {cursor:pointer;color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.stamp #file-name {overflow-wrap:anywhere;max-width:100%}
+.stamp .stages {grid-area:stages;display:flex;gap:6px;flex-wrap:wrap;padding:var(--pad);background:var(--surface);min-width:0}
+.stamp button,.stamp select,.stamp textarea {font:inherit;color:inherit;border:1px solid var(--line);padding:.43em .75em;background:var(--button);border-radius:var(--radius);cursor:pointer}
+.stamp button:is(:hover,[aria-pressed="true"]),.stamp .action {background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.stamp button:disabled {opacity:.52;cursor:default} .stamp :focus-visible {outline:2px solid var(--accent);outline-offset:3px}
+.stamp a {color:var(--accent);text-underline-offset:.2em}
+.stamp .kpis {grid-area:kpis;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);min-width:0}
+.stamp .metric {background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:var(--pad);display:grid;align-content:center}
+.stamp .metric strong {font:600 clamp(22px,4vw,53px)/1.05 var(--font-num);font-variant-numeric:tabular-nums}
+.stamp .panel {background:var(--surface);padding:var(--pad);min-width:0;border:1px solid var(--line);border-radius:var(--radius)}
+.stamp .results {grid-area:results} .stamp .chart {grid-area:chart} .stamp .inspection {grid-area:inspection} .stamp .archive {grid-area:archive}
+.stamp h2 {font-size:18px;margin:0 0 10px} .stamp .panel-head {display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between}
+.stamp #counts,.stamp #run-status {color:var(--sub);overflow-wrap:anywhere}
+.stamp .scroll {overflow:auto;max-height:290px}
+.stamp table {border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;min-width:360px}
+.stamp th,.stamp td {text-align:left;height:var(--row);padding:5px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.stamp th {position:sticky;top:0;background:var(--surface);color:var(--sub)} .stamp td:nth-child(n+2):nth-child(-n+4) {text-align:right}
+.stamp .badge {color:var(--alert);font-size:.83em;padding:2px 4px;white-space:nowrap} .stamp .badge:is([data-result="READY"],[data-result="APPROVED"]) {color:var(--accent)}
+.stamp #detail {margin:0;max-height:230px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font: .91em/1.5 var(--font-num)}
+.stamp #history {list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:var(--gap);margin:0} .stamp #history li {display:flex;align-items:center}
+.stamp #review {margin-top:14px;max-width:580px} .stamp textarea {display:block;width:100%;min-height:54px;cursor:text}
+.stamp .review-actions {display:flex;gap:6px;margin:8px 0}
+.stamp .statusbar {grid-area:statusbar;display:flex;gap:14px;justify-content:space-between;border-top:1px solid var(--line);padding:10px 0}
+.stamp [data-failure="true"] {color:var(--alert)}
+.stamp .mast {text-align:center;border:4px double var(--accent)}
+.stamp .stages {justify-content:center}
+.stamp .results {outline:1px solid var(--line);outline-offset:-7px}
+.stamp .badge {border:1px solid currentColor}
+@media(max-width:1120px) { .stamp .desk {grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"mast mast" "source source" "stages stages" "kpis kpis" "results results" "chart inspection" "archive archive" "statusbar statusbar"} }
+@media(max-width:630px) { .stamp .desk {grid-template-columns:minmax(0,1fr);grid-template-areas:"mast" "source" "stages" "kpis" "chart" "results" "inspection" "archive" "statusbar"} .stamp .kpis {grid-template-columns:repeat(2,minmax(0,1fr))} .stamp .chart #visual {display:block!important} .stamp .stages button {width:auto} }
+@media print { .stamp .source,.stamp .stages,.stamp .archive,.stamp .statusbar {display:none} .stamp .desk {display:block} }
+
+.mark-piece {background:var(--accent);color:var(--surface);min-width:0}
+
+.currency-balance {display:grid;grid-template-columns:1fr auto 1fr;align-items:center;text-align:center;border:4px double var(--accent);margin-top:14px}
+.currency-side {padding:16px 6px;font:700 clamp(1rem,2vw,1.5rem) var(--font-ui)}
+.currency-axis {font-size:26px;color:var(--accent)}
+.currency-delta {text-align:center;padding-top:8px;letter-spacing:.12em}
